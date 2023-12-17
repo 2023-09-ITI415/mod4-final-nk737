@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace UnityStandardAssets.Characters.FirstPerson
@@ -12,6 +12,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     public class FirstPersonController : MonoBehaviour
     {
         public AudioSource pickupsound;
+        public Text countText;
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
         [SerializeField] private float m_RunSpeed;
@@ -43,7 +44,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
-       
+        private int count;
 
 
         // Use this for initialization
@@ -59,6 +60,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
             m_MouseLook.Init(transform, m_Camera.transform);
+            count = 0;
+            SetCountText();
+            
         }
 
 
@@ -260,7 +264,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             body.AddForceAtPosition(m_CharacterController.velocity * 0.1f, hit.point, ForceMode.Impulse);
         }
 
-        
+     
 
         void OnTriggerEnter(Collider other)
         {
@@ -268,7 +272,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 pickupsound.Play();
                 other.gameObject.SetActive(false);
+                count = count + 1;
+                SetCountText();
             }
+        }
+        void SetCountText ()
+        {
+            countText.text = "Capsules Collected out of 70: " + count.ToString();
         }
     }
 }
