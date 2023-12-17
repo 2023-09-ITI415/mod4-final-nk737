@@ -13,6 +13,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     {
         public AudioSource pickupsound;
         public Text countText;
+        public Text winText;
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
         [SerializeField] private float m_RunSpeed;
@@ -62,7 +63,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_MouseLook.Init(transform, m_Camera.transform);
             count = 0;
             SetCountText();
-            
+            winText.text = "";
         }
 
 
@@ -278,7 +279,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
         void SetCountText ()
         {
-            countText.text = "Capsules Collected out of 70: " + count.ToString();
+            countText.text = "Capsules Collected out of 80: " + count.ToString();
+            if (count >= 80)
+            {
+                winText.text = "You have collected all of the required capsules!";
+            }
+
         }
     }
 }
